@@ -15,6 +15,7 @@ class AppColors {
   static const Color warning = Color(0xFFE6B85C);
   static const Color favorite = Color(0xFFE88B8B);
   static const Color error = Color(0xFFC96A6A);
+  static const Color card = Color(0xFFF8F5F1);
   static const Color white = Colors.white;
 
 }

@@ -61,6 +61,19 @@ flutter:
   assets:
     - assets/images/
     - assets/images/products/
+    - assets/images/Cat/
+    - assets/images/Cat/catFood/
+    - assets/images/Cat/catFood/CanFood/
+    - assets/images/Cat/catFood/DryFood/
+    - assets/images/Cat/catFood/WetFood/
+    - assets/images/Cat/kitten/
+    - assets/images/Cat/kitten/dryFood/
+    - assets/images/Cat/kitten/feeder/
+    - assets/images/Cat/kitten/milk/
+    - assets/images/Cat/kitten/wetFood/
+    - assets/images/Cat/accessories/
+    - assets/images/Cat/litter/
+    - assets/images/Cat/toys/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

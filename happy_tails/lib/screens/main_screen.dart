@@ -12,21 +12,27 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
+  String _selectedShopCategory = 'Dogs';
 
-  final List<Widget> _pages = [
-    const HomeScreen(),
-    const ShopScreen(),
-    const Center(child: Text('Wishlist Screen')),
-    const Center(child: Text('Cart Screen')),
-    const Center(child: Text('Profile Screen')),
-  ];
+  void _navigateToShopWithCategory(String category) {
+    setState(() {
+      _selectedShopCategory = category;
+      _currentIndex = 1; // Switch to Shop tab
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
-        children: _pages,
+        children: [
+          HomeScreen(onPetCategoryTap: _navigateToShopWithCategory),
+          ShopScreen(initialCategory: _selectedShopCategory),
+          const Center(child: Text('Wishlist Screen')),
+          const Center(child: Text('Cart Screen')),
+          const Center(child: Text('Profile Screen')),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

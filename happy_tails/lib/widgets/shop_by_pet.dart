@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
 import 'package:happy_tails/constants/text_styles.dart';
 
 class ShopByPet extends StatelessWidget {
-  const ShopByPet({super.key});
+  final void Function(String category)? onCategoryTap;
+  const ShopByPet({super.key, this.onCategoryTap});
 
   final List<Map<String, dynamic>> categories = const [
     {'label': 'Dogs', 'icon': Icons.pets},
@@ -24,20 +24,24 @@ class ShopByPet extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: categories.map((cat) {
-            return Column(
-              children: [
-                Container(
-                  width: 55,
-                  height: 55,
-                  decoration: const BoxDecoration(
-                    color: AppColors.surface,
-                    shape: BoxShape.circle,
+            return GestureDetector(
+              onTap: () => onCategoryTap?.call(cat['label'] as String),
+              child: Column(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 150),
+                    width: 55,
+                    height: 55,
+                    decoration: const BoxDecoration(
+                      color: AppColors.surface,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(cat['icon'] as IconData, color: AppColors.primary),
                   ),
-                  child: Icon(cat['icon'], color: AppColors.primary),
-                ),
-                const SizedBox(height: 6),
-                Text(cat['label'], style: TextStyles.small),
-              ],
+                  const SizedBox(height: 6),
+                  Text(cat['label'] as String, style: TextStyles.small),
+                ],
+              ),
             );
           }).toList(),
         ),

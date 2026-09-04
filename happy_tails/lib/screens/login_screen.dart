@@ -5,7 +5,7 @@ import 'package:happy_tails/widgets/logo_section.dart';
 import 'package:happy_tails/widgets/custom_text_field.dart';
 import 'package:happy_tails/widgets/primary_button.dart';
 import 'package:happy_tails/utils/form_validator.dart';
-
+import 'package:happy_tails/screens/home_screen.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -35,13 +35,22 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     return _emailError == null && _passwordError == null;
   }
-  void _handleLogin() {
+  void _handleLogin() async {
     if (_validateFields()) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Logging in... 🐾'),
           backgroundColor: AppColors.primary,
         ),
+      );
+
+      await Future.delayed(const Duration(milliseconds: 800));
+
+      if (!mounted) return;
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
     }
   }

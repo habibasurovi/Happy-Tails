@@ -7,8 +7,6 @@ import 'package:happy_tails/widgets/home_search_bar.dart';
 import 'package:happy_tails/widgets/promo_banner.dart';
 import 'package:happy_tails/widgets/shop_by_pet.dart';
 import 'package:happy_tails/widgets/happy_picks.dart';
-import 'package:happy_tails/widgets/home_bottom_nav.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -29,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      bottomNavigationBar: const HomeBottomNav(),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),

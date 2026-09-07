@@ -5,7 +5,7 @@ import 'package:happy_tails/widgets/logo_section.dart';
 import 'package:happy_tails/widgets/custom_text_field.dart';
 import 'package:happy_tails/widgets/primary_button.dart';
 import 'package:happy_tails/utils/form_validator.dart';
-import 'package:happy_tails/screens/home_screen.dart';
+import 'package:happy_tails/screens/main_screen.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const MainScreen()),
       );
     }
   }

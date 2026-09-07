@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
 import 'package:happy_tails/widgets/home_header.dart';
@@ -29,13 +28,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      bottomNavigationBar: const HomeBottomNav(),
+      bottomNavigationBar: HomeBottomNav(
+        currentIndex: 0, // যেহেতু এটি হোম স্ক্রিন, তাই ইনডেক্স ০
+        onTap: (index) {
+          // এখানে ইনডেক্স অনুযায়ী অন্যান্য পেজে রাউট করতে পারো
+        },
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // ওপরের লাভ আইকন রিমুভ করে শুধু ক্লিন হেডার রাখা হলো
               const HomeHeader(),
               const SizedBox(height: 16),
               const HomeGreeting(),

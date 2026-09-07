@@ -1,50 +1,23 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:happy_tails/constants/app_colors.dart';
-import 'package:happy_tails/screens/login_screen.dart';
-import 'package:happy_tails/widgets/logo_section.dart';
+import 'screens/splash_screen.dart'; // স্প্ল্যাশ স্ক্রিন ইম্পোর্ট করা হলো
 
 void main() {
-  runApp(const HappyTails());
+  runApp(const MyApp());
 }
 
-class HappyTails extends StatelessWidget {
-  const HappyTails({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Happy Tails',
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
-    );
-  }
-}
-
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // Show splash for 3 seconds then navigate to LoginScreen
-    Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const LoginScreen()),
-      );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: const Center(
-        child: LogoSection(), // only the logo, perfectly centered
+      theme: ThemeData(
+        primarySwatch: Colors.brown,
+        scaffoldBackgroundColor: const Color(0xFFFDF8F2), // অ্যাপের ব্যাকগ্রাউন্ড কালার
       ),
+      home: const SplashScreen(), // অ্যাপ ওপেন হলেই প্রথমে স্প্ল্যাশ স্ক্রিন দেখাবে
     );
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
 import 'package:happy_tails/widgets/home_header.dart';
@@ -10,7 +9,11 @@ import 'package:happy_tails/widgets/happy_picks.dart';
 
 class HomeScreen extends StatefulWidget {
   final void Function(String category)? onPetCategoryTap;
-  const HomeScreen({super.key, this.onPetCategoryTap});
+
+  const HomeScreen({
+    super.key,
+    this.onPetCategoryTap,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -39,11 +42,15 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(height: 16),
               const HomeGreeting(),
               const SizedBox(height: 14),
-              HomeSearchBar(controller: searchController),
+              HomeSearchBar(
+                controller: searchController,
+              ),
               const SizedBox(height: 16),
               const PromoBanner(),
               const SizedBox(height: 20),
-              ShopByPet(onCategoryTap: widget.onPetCategoryTap),
+              ShopByPet(
+                onCategoryTap: widget.onPetCategoryTap,
+              ),
               const SizedBox(height: 20),
               const HappyPicks(),
               const SizedBox(height: 20),

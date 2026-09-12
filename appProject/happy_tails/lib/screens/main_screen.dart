@@ -3,6 +3,8 @@ import 'package:happy_tails/constants/app_colors.dart';
 import 'package:happy_tails/screens/home_screen.dart';
 import 'package:happy_tails/screens/shop_screen.dart';
 import 'package:happy_tails/screens/profile_screen.dart';
+import 'package:happy_tails/screens/wishlist_screen.dart';
+import 'package:happy_tails/screens/cart_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -34,12 +36,8 @@ class _MainScreenState extends State<MainScreen> {
           ShopScreen(
             initialCategory: _selectedShopCategory,
           ),
-          const Center(
-            child: Text('Wishlist Screen'),
-          ),
-          const Center(
-            child: Text('Cart Screen'),
-          ),
+          const WishlistScreen(),
+          const CartScreen(),
           const ProfileScreen(),
         ],
       ),

@@ -35,7 +35,7 @@ class HappyPicks extends StatelessWidget {
               ProductCard(
                 name: 'Squeaky Toy Set',
                 price: '৳320',
-                rating: '4.6 (98)',
+                rating: '4.9 (298)',
                 imagePath: 'assets/images/products/squeaky_toys.jpg',
               ),
               ProductCard(

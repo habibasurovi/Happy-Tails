@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
 import 'package:happy_tails/screens/home_screen.dart';
 import 'package:happy_tails/screens/shop_screen.dart';
+import 'package:happy_tails/screens/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -17,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
   void _navigateToShopWithCategory(String category) {
     setState(() {
       _selectedShopCategory = category;
-      _currentIndex = 1; // Switch to Shop tab
+      _currentIndex = 1;
     });
   }
 
@@ -27,11 +28,19 @@ class _MainScreenState extends State<MainScreen> {
       body: IndexedStack(
         index: _currentIndex,
         children: [
-          HomeScreen(onPetCategoryTap: _navigateToShopWithCategory),
-          ShopScreen(initialCategory: _selectedShopCategory),
-          const Center(child: Text('Wishlist Screen')),
-          const Center(child: Text('Cart Screen')),
-          const Center(child: Text('Profile Screen')),
+          HomeScreen(
+            onPetCategoryTap: _navigateToShopWithCategory,
+          ),
+          ShopScreen(
+            initialCategory: _selectedShopCategory,
+          ),
+          const Center(
+            child: Text('Wishlist Screen'),
+          ),
+          const Center(
+            child: Text('Cart Screen'),
+          ),
+          const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -47,11 +56,26 @@ class _MainScreenState extends State<MainScreen> {
           });
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.storefront), label: 'Shop'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: 'Wishlist'),
-          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'Cart'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.storefront),
+            label: 'Shop',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            label: 'Wishlist',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart_outlined),
+            label: 'Cart',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
         ],
       ),
     );

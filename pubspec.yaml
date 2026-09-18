@@ -74,6 +74,7 @@ flutter:
     - assets/images/Cat/accessories/
     - assets/images/Cat/litter/
     - assets/images/Cat/toys/
+    - assets/images/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

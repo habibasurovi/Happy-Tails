@@ -1,7 +1,7 @@
 import 'package:happy_tails/models/product.dart';
 
 final List<Product> catProductsData = [
-  // --- FOOD -> WET FOOD ---
+  //FOOD -> WET FOOD
   const Product(
     id: 'wf1',
     name: 'Bellotta Mackerel Wet Pouch (85g)',

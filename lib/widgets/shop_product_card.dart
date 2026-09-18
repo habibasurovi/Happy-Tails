@@ -1,118 +1,217 @@
 import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
 import 'package:happy_tails/constants/text_styles.dart';
-import 'package:happy_tails/data/cart_data.dart';
 import 'package:happy_tails/models/product.dart';
 
 class ShopProductCard extends StatefulWidget {
   final Product product;
-  const ShopProductCard({super.key, required this.product});
+  final VoidCallback? onAddToCart;
+  final VoidCallback? onToggleFavorite;
+
+  const ShopProductCard({
+    super.key,
+    required this.product,
+    this.onAddToCart,
+    this.onToggleFavorite,
+  });
 
   @override
   State<ShopProductCard> createState() => _ShopProductCardState();
 }
 
 class _ShopProductCardState extends State<ShopProductCard> {
+  late bool isFavorite;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = widget.product.isFavorite;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final isFav = AppData.isWishlisted(widget.product);
-
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(16),
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                child: Image.asset(
-                  widget.product.imagePath, // Fixed: imagePath used here
-                  height: 120,
+          // Image Container
+          Expanded(
+            child: Stack(
+              children: [
+                Container(
                   width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                top: 8,
-                right: 8,
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      AppData.toggleWishlist(widget.product);
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: const BoxDecoration(
-                      color: AppColors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      isFav ? Icons.favorite : Icons.favorite_border,
-                      size: 18,
-                      color: isFav ? Colors.red : AppColors.secondaryText,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF7EBE1), // Light peach/tan image container
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  margin: const EdgeInsets.all(6),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(14),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        widget.product.imagePath,
+                        fit: BoxFit.contain,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Center(
+                            child: Icon(Icons.pets, size: 40, color: AppColors.secondaryText),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+
+                // Badge (Top Left)
+                if (widget.product.badge != null)
+                  Positioned(
+                    top: 12,
+                    left: 12,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: widget.product.badge!.contains('%')
+                            ? AppColors.error
+                            : (widget.product.badge == 'Best Seller' ? AppColors.success : AppColors.primary),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        widget.product.badge!,
+                        style: TextStyles.small.copyWith(
+                          color: AppColors.white,
+                          fontSize: 9,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                // Favorite Heart (Top Right)
+                Positioned(
+                  top: 12,
+                  right: 12,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isFavorite = !isFavorite;
+                      });
+                      widget.onToggleFavorite?.call();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: AppColors.white.withValues(alpha: 0.85),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavorite ? AppColors.favorite : AppColors.secondaryText,
+                        size: 15,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
+
+          // Details Section
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(10, 4, 10, 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Title
                 Text(
                   widget.product.name,
                   style: TextStyles.body.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 13,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primaryText,
+                    height: 1.2,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 6),
+
+                // Price and Add button Row
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      '৳${widget.product.price}',
-                      style: TextStyles.body.copyWith(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Price in Taka (৳)
+                        Text(
+                          '৳${widget.product.price}',
+                          style: TextStyles.body.copyWith(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+
+                        // Rating
+                        Row(
+                          children: [
+                            const Icon(Icons.star_rounded, size: 13, color: AppColors.warning),
+                            const SizedBox(width: 2),
+                            Text(
+                              '${widget.product.rating}',
+                              style: TextStyles.small.copyWith(
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primaryText,
+                              ),
+                            ),
+                            Text(
+                              ' (${widget.product.reviewCount})',
+                              style: TextStyles.small.copyWith(
+                                fontSize: 10,
+                                color: AppColors.secondaryText,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    GestureDetector(
+
+                    // Add to Cart Button
+                    InkWell(
                       onTap: () {
-                        AppData.addToCart(widget.product);
+                        widget.onAddToCart?.call();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text('${widget.product.name} added to cart!'),
+                            content: Text('${widget.product.name} added to cart! 🐾'),
                             duration: const Duration(seconds: 1),
+                            backgroundColor: AppColors.primary,
                           ),
                         );
                       },
                       child: Container(
-                        padding: const EdgeInsets.all(6),
+                        padding: const EdgeInsets.all(7),
                         decoration: BoxDecoration(
                           color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Icon(
                           Icons.shopping_bag_outlined,
+                          color: AppColors.white,
                           size: 16,
-                          color: Colors.white,
                         ),
                       ),
                     ),

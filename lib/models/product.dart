@@ -6,8 +6,6 @@ class Product {
   final int reviewCount;
   final String imagePath;
   final String mainCategory; // e.g. 'Cats', 'Dogs'
-  final String subCategory;  // e.g. 'Food', 'Kitten', 'Toys', 'Accessories', 'Litter'
-  final String? nestedCategory; // e.g. 'Wet Food', 'Dry Food', 'Can Food', 'Milk', 'Feeder'
   final String? badge; // e.g. 'Best Seller', '-20%'
   final bool isFavorite;
 
@@ -19,8 +17,6 @@ class Product {
     required this.reviewCount,
     required this.imagePath,
     required this.mainCategory,
-    required this.subCategory,
-    this.nestedCategory,
     this.badge,
     this.isFavorite = false,
   });

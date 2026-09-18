@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
 // আপনার লগ-ইন স্ক্রিনের ফাইলটি এখানে ইমপোর্ট করতে হবে
-// import 'package:happy_tails/screens/login_screen.dart';
+import 'package:happy_tails/screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -17,13 +17,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // ৩ সেকেন্ড পর অটোমেটিক লগ-ইন স্ক্রিনে নিয়ে যাওয়ার লজিক
     Future.delayed(const Duration(seconds: 3), () {
-      /*
-      // যখন আপনার LoginScreen তৈরি হয়ে যাবে, তখন নিচের কমেন্টগুলো তুলে দিবেন
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
-      */
     });
   }
 

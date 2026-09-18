@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happy_tails/constants/app_colors.dart';
 import 'package:happy_tails/screens/home_screen.dart';
 import 'package:happy_tails/screens/shop_screen.dart';
 import 'package:happy_tails/screens/wishlist_screen.dart';
@@ -12,48 +13,41 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 1;
+  int _currentIndex = 0;
+  String _selectedShopCategory = 'Dogs';
+
+  void _navigateToShopWithCategory(String category) {
+    setState(() {
+      _selectedShopCategory = category;
+      _currentIndex = 1; // Switch to Shop tab
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // স্ক্রিনের লিস্টটি build মেথডের ভেতরে নিয়ে আসা হয়েছে
-    final List<Widget> screens = [
-      const HomeScreen(),
-      const ShopScreen(),
-      WishlistScreen(
-        // এই ফাংশনটি উইশলিস্টের ব্যাক বাটনে ক্লিক করলে কাজ করবে
-        onBackToShop: () {
-          setState(() {
-            _currentIndex = 1; // ১ মানে Shop পেজ
-          });
-        },
-      ),
-      // আগের CartScreen() এর বদলে এইটুকু লিখুন
-      CartScreen(
-        onBackToWishlist: () {
-          setState(() {
-            _currentIndex = 2; // ২ মানে Wishlist পেজের ইনডেক্স
-          });
-        },
-      ),
-      const Center(child: Text('Profile Screen')),
-    ];
-
     return Scaffold(
-      // IndexedStack সরিয়ে সরাসরি screens পাস করা হলো
-      body: screens[_currentIndex],
-
+      body: [
+        HomeScreen(onPetCategoryTap: _navigateToShopWithCategory),
+        ShopScreen(initialCategory: _selectedShopCategory),
+        WishlistScreen(onBackToShop: () => setState(() => _currentIndex = 1)),
+        CartScreen(onBackToWishlist: () => setState(() => _currentIndex = 2)),
+        const Center(child: Text('Profile Screen')),
+      ][_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.secondaryText,
+        backgroundColor: AppColors.white,
+        showUnselectedLabels: true,
+        type: BottomNavigationBarType.fixed,
         onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
-        type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.storefront_outlined), label: 'Shop'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.storefront), label: 'Shop'),
           BottomNavigationBarItem(icon: Icon(Icons.favorite_border), label: 'Wishlist'),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'Cart'),
           BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),

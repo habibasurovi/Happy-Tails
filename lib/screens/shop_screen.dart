@@ -195,12 +195,12 @@ class _ShopScreenState extends State<ShopScreen> {
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: isSelected
                               ? [
-                            BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.3),
-                              blurRadius: 8,
-                              offset: const Offset(0, 4),
-                            ),
-                          ]
+                                  BoxShadow(
+                                    color: AppColors.primary.withValues(alpha: 0.3),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ]
                               : null,
                         ),
                         child: Row(
@@ -227,7 +227,7 @@ class _ShopScreenState extends State<ShopScreen> {
 
             const SliverToBoxAdapter(child: SizedBox(height: 12)),
 
-            // ── Sub-category Chips ──────────────────────────────────────
+            // ── Sub-category Chips (All, Food, Kitten, Toys …) ───────────
             SliverToBoxAdapter(
               child: SizedBox(
                 height: 38,
@@ -275,7 +275,7 @@ class _ShopScreenState extends State<ShopScreen> {
               ),
             ),
 
-            // ── Nested Sub-section Chips ────────────────────────────────
+            // ── Nested Sub-section Chips (Wet Food / Dry Food …) ─────────
             if (hasNested) ...[
               const SliverToBoxAdapter(child: SizedBox(height: 10)),
               SliverToBoxAdapter(
@@ -363,43 +363,36 @@ class _ShopScreenState extends State<ShopScreen> {
             // ── Product Grid ──────────────────────────────────────────────
             products.isEmpty
                 ? SliverFillRemaining(
-              hasScrollBody: false,
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.search_off_rounded, size: 48, color: AppColors.secondaryText),
-                    const SizedBox(height: 8),
-                    Text(
-                      'No products found in this category',
-                      style: TextStyles.body.copyWith(color: AppColors.secondaryText),
+                    hasScrollBody: false,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.search_off_rounded, size: 48, color: AppColors.secondaryText),
+                          const SizedBox(height: 8),
+                          Text(
+                            'No products found in this category',
+                            style: TextStyles.body.copyWith(color: AppColors.secondaryText),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ),
-            )
+                  )
                 : SliverPadding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-              sliver: SliverGrid(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.65,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                    final product = products[index];
-                    return ShopProductCard(
-                      product: product,
-                      onAddToCart: () => setState(() {}),
-                      onToggleFavorite: () => setState(() {}),
-                    );
-                  },
-                  childCount: products.length,
-                ),
-              ),
-            ),
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+                    sliver: SliverGrid(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.65,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 12,
+                      ),
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) => ShopProductCard(product: products[index]),
+                        childCount: products.length,
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
-import 'login_screen.dart'; // তোমার প্রজেক্ট অনুযায়ী লগইন স্ক্রিনের পাথ ঠিক করে নিও
+// আপনার লগ-ইন স্ক্রিনের ফাইলটি এখানে ইমপোর্ট করতে হবে
+// import 'package:happy_tails/screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -9,68 +10,46 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
 
-    // অ্যানিমেশন কন্ট্রোলার (সময়কাল ১.৫ সেকেন্ড)
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    );
-
-    // লোগোটি অনেক ছোট থেকে শুরু হয়ে বেশ বড় (2.5 গুণ) জুম হবে
-    _scaleAnimation = Tween<double>(begin: 0.2, end: 2.5).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeOut,
-      ),
-    );
-
-    // অ্যানিমেশন শুরু করা
-    _controller.forward();
-
-    // ৩ সেকেন্ড পর লগইন স্ক্রিনে যাওয়া
+    // ৩ সেকেন্ড পর অটোমেটিক লগ-ইন স্ক্রিনে নিয়ে যাওয়ার লজিক
     Future.delayed(const Duration(seconds: 3), () {
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-        );
-      }
+      /*
+      // যখন আপনার LoginScreen তৈরি হয়ে যাবে, তখন নিচের কমেন্টগুলো তুলে দিবেন
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+      */
     });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.background,
       body: Center(
-        child: ScaleTransition(
-          scale: _scaleAnimation,
+        // লোগোটিতে সুন্দর একটি অ্যানিমেশন দেওয়ার জন্য TweenAnimationBuilder ব্যবহার করা হয়েছে
+        child: TweenAnimationBuilder(
+          tween: Tween<double>(begin: 0.2, end: 1.0),
+          duration: const Duration(milliseconds: 1200),
+          curve: Curves.elasticOut, // এটি লোগোটিতে একটি সুন্দর বাউন্সিং ইফেক্ট দিবে
+          builder: (context, double scale, child) {
+            return Transform.scale(
+              scale: scale,
+              child: Opacity(
+                opacity: scale.clamp(0.0, 1.0),
+                child: child,
+              ),
+            );
+          },
+          // এখানে আপনার লোগোর ছবি দিন
           child: Image.asset(
-            'assets/images/logo.png', // তোমার লোগোর পাথ
-            width: 100, // বেস সাইজ ছোট রাখা হয়েছে যাতে জুম হয়ে বড় হতে পারে
-            height: 100,
-            fit: BoxFit.contain,
-            errorBuilder: (context, error, stackTrace) {
-              return const Icon(
-                Icons.pets,
-                size: 80,
-                color: Colors.white,
-              );
-            },
+            'assets/images/logo.png', // আপনার লোগোর সঠিক পাথটি এখানে বসিয়ে দিন
+            width: 250,
           ),
         ),
       ),

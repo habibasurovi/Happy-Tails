@@ -4,6 +4,7 @@ import 'package:happy_tails/screens/home_screen.dart';
 import 'package:happy_tails/screens/shop_screen.dart';
 import 'package:happy_tails/screens/wishlist_screen.dart';
 import 'package:happy_tails/screens/cart_screen.dart';
+import 'package:happy_tails/screens/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -19,7 +20,7 @@ class _MainScreenState extends State<MainScreen> {
   void _navigateToShopWithCategory(String category) {
     setState(() {
       _selectedShopCategory = category;
-      _currentIndex = 1; // Switch to Shop tab
+      _currentIndex = 1;
     });
   }
 
@@ -31,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
         ShopScreen(initialCategory: _selectedShopCategory),
         WishlistScreen(onBackToShop: () => setState(() => _currentIndex = 1)),
         CartScreen(onBackToWishlist: () => setState(() => _currentIndex = 2)),
-        const Center(child: Text('Profile Screen')),
+        const ProfileScreen(),
       ][_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

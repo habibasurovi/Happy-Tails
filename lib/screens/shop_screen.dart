@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
-import 'package:happy_tails/constants/text_styles.dart';
-import 'package:happy_tails/data/cat_products.dart';
-import 'package:happy_tails/data/dog_products.dart';
-import 'package:happy_tails/data/bird_products.dart';
-import 'package:happy_tails/data/bunny_products.dart';
-import 'package:happy_tails/data/fish_products.dart';
+import 'package:happy_tails/widgets/home_search_bar.dart';
 import 'package:happy_tails/models/product.dart';
 import 'package:happy_tails/data/cart_data.dart';
-
+import 'package:happy_tails/constants/text_styles.dart';
+import 'package:happy_tails/widgets/shop_product_card.dart';
 class ShopScreen extends StatefulWidget {
   final String initialCategory;
   const ShopScreen({super.key, this.initialCategory = 'Dogs'});
@@ -37,26 +33,10 @@ class _ShopScreenState extends State<ShopScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Combine all product lists into one
-    final List<Product> allProducts = [
-      ...catProductsData,
-      ...dogProductsData,
-      ...birdProductsData,
-      ...bunnyProductsData,
-      ...fishProductsData,
-    ];
-
-    // Basic filter logic
-    List<Product> filteredProducts = [];
-    for (var product in allProducts) {
-      if (product.mainCategory == selectedCategory) {
-        if (searchController.text.isEmpty) {
-          filteredProducts.add(product);
-        } else if (product.name.toLowerCase().contains(searchController.text.toLowerCase())) {
-          filteredProducts.add(product);
-        }
-      }
-    }
+    String query = searchController.text.trim();
+    
+    // Search within the selected category.
+    List<Product> filteredProducts = HomeSearchBar.searchProducts(query, category: selectedCategory);
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -72,20 +52,11 @@ class _ShopScreenState extends State<ShopScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: TextField(
+            child: HomeSearchBar(
               controller: searchController,
               onChanged: (value) {
                 setState(() {});
               },
-              decoration: InputDecoration(
-                hintText: 'Search products...',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                filled: true,
-                fillColor: AppColors.white,
-              ),
             ),
           ),
           SizedBox(
@@ -105,18 +76,17 @@ class _ShopScreenState extends State<ShopScreen> {
                     });
                   },
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    margin: const EdgeInsets.symmetric(horizontal: 6),
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                     decoration: BoxDecoration(
-                      color: isSelected ? AppColors.primary : AppColors.white,
-                      borderRadius: BorderRadius.circular(25),
-                      border: Border.all(color: AppColors.primary),
+                      color: isSelected ? AppColors.primary : AppColors.card,
+                      borderRadius: BorderRadius.circular(30),
                     ),
                     child: Center(
                       child: Text(
                         category,
                         style: TextStyle(
-                          color: isSelected ? AppColors.white : AppColors.primaryText,
+                          color: isSelected ? AppColors.white : AppColors.secondaryText,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -151,118 +121,18 @@ class _ShopScreenState extends State<ShopScreen> {
               ),
               itemCount: filteredProducts.length,
               itemBuilder: (context, index) {
-                return CustomShopProductCard(product: filteredProducts[index]);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// Note theke: StatefulWidget - প্রোডাক্ট কার্ডের জন্য[cite: 1]
-class CustomShopProductCard extends StatefulWidget {
-  final Product product;
-  const CustomShopProductCard({super.key, required this.product});
-
-  @override
-  State<CustomShopProductCard> createState() => _CustomShopProductCardState();
-}
-
-class _CustomShopProductCardState extends State<CustomShopProductCard> {
-  @override
-  Widget build(BuildContext context) {
-    bool isFavorite = AppData.isWishlisted(widget.product);
-
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.background, width: 2),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-              icon: Icon(
-                isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: isFavorite ? Colors.red : Colors.grey,
-              ),
-              onPressed: () {
-                setState(() { // Note theke: setState[cite: 1]
-                  AppData.toggleWishlist(widget.product);
-                });
-              },
-            ),
-          ),
-          Expanded(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Image.asset(
-                  widget.product.imagePath,
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.product.name,
-                        style: TextStyles.body.copyWith(fontWeight: FontWeight.bold),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '৳${widget.product.price}',
-                        style: TextStyles.body.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // AI theke: শপ স্ক্রিনের কার্ডে কার্ট আইকন। ন্যাভিগেশন বাদ দেওয়া হয়েছে।
-                GestureDetector(
-                  onTap: () {
-                    AppData.addToCart(widget.product);
-
-                    // AI theke: মেসেজ পপআপ
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('${widget.product.name} added to cart!'),
-                        duration: const Duration(seconds: 1),
-                      ),
-                    );
+                return ShopProductCard(
+                  product: filteredProducts[index],
+                  onAddToCart: () {
+                    AppData.addToCart(filteredProducts[index]);
                   },
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFC8553D),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(
-                      Icons.shopping_bag_outlined,
-                      color: Colors.white,
-                      size: 18,
-                    ),
-                  ),
-                ),
-              ],
+                  onToggleFavorite: () {
+                    setState(() {
+                      AppData.toggleWishlist(filteredProducts[index]);
+                    });
+                  },
+                );
+              },
             ),
           ),
         ],
@@ -270,3 +140,4 @@ class _CustomShopProductCardState extends State<CustomShopProductCard> {
     );
   }
 }
+

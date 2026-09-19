@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
 import 'package:happy_tails/constants/text_styles.dart';
 import 'package:happy_tails/models/product.dart';
+import 'package:happy_tails/data/cart_data.dart';
 
 class ShopProductCard extends StatefulWidget {
   final Product product;
@@ -25,7 +26,16 @@ class _ShopProductCardState extends State<ShopProductCard> {
   @override
   void initState() {
     super.initState();
-    isFavorite = widget.product.isFavorite;
+    isFavorite = AppData.isWishlisted(widget.product);
+  }
+
+  @override
+  void didUpdateWidget(ShopProductCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Sync if parent updates
+    if (oldWidget.product != widget.product) {
+      isFavorite = AppData.isWishlisted(widget.product);
+    }
   }
 
   @override

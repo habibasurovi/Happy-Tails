@@ -131,7 +131,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               ],
             ),
 
-            const Expanded(child: SizedBox()), // বাটনের উপরের ফাঁকা জায়গার জন্য
+            const Expanded(child: SizedBox()), 
 
             SizedBox(
               width: double.infinity,
@@ -141,7 +141,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
                 onPressed: () {
-                  // এখানে শুধু কনসোল প্রিন্ট হবে
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Order Confirmed Successfully!"),
+                      backgroundColor: AppColors.primary,
+                    ),
+                  );
                   print("Order Confirmed!");
                 },
                 child: const Text("Confirm Order", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),

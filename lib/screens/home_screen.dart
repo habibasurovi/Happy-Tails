@@ -1,13 +1,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
+import 'package:happy_tails/data/cart_data.dart';
 import 'package:happy_tails/widgets/home_header.dart';
 import 'package:happy_tails/widgets/home_greeting.dart';
 import 'package:happy_tails/widgets/home_search_bar.dart';
 import 'package:happy_tails/widgets/promo_banner.dart';
 import 'package:happy_tails/widgets/shop_by_pet.dart';
 import 'package:happy_tails/widgets/happy_picks.dart';
-import 'package:happy_tails/screens/shop_screen.dart';
+import 'package:happy_tails/widgets/shop_product_card.dart';
 import 'package:happy_tails/models/product.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -74,7 +75,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     itemCount: searchResults.length,
                     itemBuilder: (context, index) {
-                      return CustomShopProductCard(product: searchResults[index]);
+                      return ShopProductCard(
+                        product: searchResults[index],
+                        onAddToCart: () {
+                          AppData.addToCart(searchResults[index]);
+                        },
+                        onToggleFavorite: () {
+                          setState(() {
+                            AppData.toggleWishlist(searchResults[index]);
+                          });
+                        },
+                      );
                     },
                   ),
               ] else ...[

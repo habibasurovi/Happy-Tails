@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
 import 'package:happy_tails/constants/text_styles.dart';
 import 'package:happy_tails/data/cat_products.dart';
+import 'package:happy_tails/data/dog_products.dart';
+import 'package:happy_tails/data/bird_products.dart';
+import 'package:happy_tails/data/bunny_products.dart';
+import 'package:happy_tails/data/fish_products.dart';
 import 'package:happy_tails/models/product.dart';
 import 'package:happy_tails/data/cart_data.dart';
 
@@ -33,8 +37,21 @@ class _ShopScreenState extends State<ShopScreen> {
 
   @override
   Widget build(BuildContext context) {
+<<<<<<< Updated upstream
+=======
+    // Combine all product lists into one
+    final List<Product> allProducts = [
+      ...catProductsData,
+      ...dogProductsData,
+      ...birdProductsData,
+      ...bunnyProductsData,
+      ...fishProductsData,
+    ];
+
+    // Basic filter logic
+>>>>>>> Stashed changes
     List<Product> filteredProducts = [];
-    for (var product in catProductsData) {
+    for (var product in allProducts) {
       if (product.mainCategory == selectedCategory) {
         if (searchController.text.isEmpty) {
           filteredProducts.add(product);

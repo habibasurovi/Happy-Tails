@@ -1,0 +1,52 @@
+import 'package:happy_tails/models/product.dart';
+
+final List<Product> birdProductsData = [
+  const Product(
+    id: 'prod_120',
+    name: 'Goldwings Premium Parrot Food (1kg)',
+    price: 650,
+    rating: 4.7,
+    reviewCount: 98,
+    imagePath: 'assets/images/Birds/Goldwings-Premium-Parrot-Food-1KG-petzonebd.webp',
+    mainCategory: 'Birds',
+    badge: 'Best Seller',
+  ),
+  const Product(
+    id: 'prod_121',
+    name: 'Goldwings Premium Multivitamin for Birds (20ml)',
+    price: 320,
+    rating: 4.8,
+    reviewCount: 74,
+    imagePath: 'assets/images/Birds/Goldwings-Premium-Multivitamin-For-Birds-20ml.jpg.webp',
+    mainCategory: 'Birds',
+    badge: 'New',
+  ),
+  const Product(
+    id: 'prod_122',
+    name: 'NutriBird A19 Hand-Rearing Bird Food (800g)',
+    price: 1200,
+    rating: 4.9,
+    reviewCount: 56,
+    imagePath: 'assets/images/Birds/Nutribird-A19-Hand-rearing-800g.jpg.webp',
+    mainCategory: 'Birds',
+    badge: 'Premium',
+  ),
+  const Product(
+    id: 'prod_123',
+    name: 'Petslife Hand Feeding Formula Bird Food (250g)',
+    price: 480,
+    rating: 4.6,
+    reviewCount: 61,
+    imagePath: 'assets/images/Birds/Petslife-Hand-Feeding-Formula-Bird-Food-250g-600x600.png.webp',
+    mainCategory: 'Birds',
+  ),
+  const Product(
+    id: 'prod_124',
+    name: 'Versele-Laga Egg Food for Small Parakeets (1kg)',
+    price: 750,
+    rating: 4.7,
+    reviewCount: 43,
+    imagePath: 'assets/images/Birds/Versele-laga-EGG-FOOD-DRY-SMALL-PARAKEETS-1kg.jpg.webp',
+    mainCategory: 'Birds',
+  ),
+];

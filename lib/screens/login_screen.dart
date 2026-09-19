@@ -6,6 +6,7 @@ import 'package:happy_tails/widgets/custom_text_field.dart';
 import 'package:happy_tails/widgets/primary_button.dart';
 import 'package:happy_tails/utils/form_validator.dart';
 import 'package:happy_tails/screens/main_screen.dart';
+import 'package:happy_tails/utils/auth_services.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -18,6 +19,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AuthServices authServices = AuthServices();
   bool _obscurePassword = true;
   bool _rememberMe = false;
   String? _emailError;
@@ -37,24 +39,30 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   void _handleLogin() async {
     if (_validateFields()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Logging in... 🐾'),
-          backgroundColor: AppColors.primary,
-        ),
-      );
+      try {
+        await authServices.login(
+          _emailController.text,
+          _passwordController.text,
+        );
 
-      await Future.delayed(const Duration(milliseconds: 800));
+        if (!mounted) return;
 
-      if (!mounted) return;
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainScreen()),
-      );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MainScreen(),
+          ),
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Invalid email or password'),
+            backgroundColor: AppColors.primary,
+          ),
+        );
+      }
     }
-  }
-  @override
+  }  @override
   Widget build(BuildContext context)
   {
     return Scaffold(
@@ -153,6 +161,25 @@ class _LoginScreenState extends State<LoginScreen> {
                           GestureDetector(
                             onTap: () {
                               // Forgot Password screen
+                              onTap: () async {
+                                try {
+                                  await authServices.forgotPassword(
+                                      _emailController.text);
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Password reset email sent!'),
+                                    ),
+                                  );
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Enter a valid email.'),
+                                    ),
+                                  );
+                                }
+                              };
                             },
                             child: Text(
                               'Forgot Password?',

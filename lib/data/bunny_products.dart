@@ -1,0 +1,53 @@
+import 'package:happy_tails/models/product.dart';
+
+final List<Product> bunnyProductsData = [
+  const Product(
+    id: 'prod_125',
+    name: 'Complete Cuni Adult Rabbit Food (1.75kg)',
+    price: 890,
+    rating: 4.7,
+    reviewCount: 82,
+    imagePath: 'assets/images/Bunnies/COMPLETE-CUNI-ADULT-Rabbit-Food-1.75KG.jpg.webp',
+    mainCategory: 'Bunnies',
+    badge: 'Best Seller',
+  ),
+  const Product(
+    id: 'prod_126',
+    name: 'Complete Cuni Junior Rabbit Food (1.75kg)',
+    price: 890,
+    rating: 4.8,
+    reviewCount: 65,
+    imagePath: 'assets/images/Bunnies/COMPLETE-CUNI-JUNIOR-Rabbit-Food-1.75KG.jpg.webp',
+    mainCategory: 'Bunnies',
+    badge: 'For Kits',
+  ),
+  const Product(
+    id: 'prod_127',
+    name: 'SmartHeart Rabbit Food Apple Flavour (1kg)',
+    price: 520,
+    rating: 4.5,
+    reviewCount: 110,
+    imagePath: 'assets/images/Bunnies/Smart-Heart-Rabbit-Food-Apple-Flavour-1kg.webp',
+    mainCategory: 'Bunnies',
+  ),
+  const Product(
+    id: 'prod_128',
+    name: 'SmartHeart Rabbit Food Veggies & Cereals (1kg)',
+    price: 520,
+    rating: 4.6,
+    reviewCount: 97,
+    imagePath: 'assets/images/Bunnies/SmartHeart-Rabbit-Food-–-Veggies-Cereals-1kg.webp',
+    mainCategory: 'Bunnies',
+    badge: '-10%',
+  ),
+  const Product(
+    id: 'prod_129',
+    name: 'Rabbit Cage',
+    price: 2500,
+    rating: 4.4,
+    reviewCount: 38,
+    imagePath: 'assets/images/Bunnies/rabbit-cage.jpg',
+    mainCategory: 'Bunnies',
+    badge: 'New',
+  ),
+];

@@ -4,7 +4,6 @@ import 'package:happy_tails/constants/text_styles.dart';
 import 'package:happy_tails/data/cart_data.dart';
 
 class WishlistScreen extends StatefulWidget {
-  // শপ পেজে ব্যাক করার জন্য একটি রিকোয়ার্ড ফাংশন
   final VoidCallback onBackToShop;
 
   const WishlistScreen({super.key, required this.onBackToShop});
@@ -21,7 +20,6 @@ class _WishlistScreenState extends State<WishlistScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        // ব্যাক বাটন যা এখন শপ ট্যাবে নিয়ে যাবে
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: widget.onBackToShop,
@@ -46,67 +44,70 @@ class _WishlistScreenState extends State<WishlistScreen> {
         itemCount: wishlist.length,
         itemBuilder: (context, index) {
           final product = wishlist[index];
-          return Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: ColoredBox(
               color: AppColors.white,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
-                    product.imagePath,
-                    width: 60,
-                    height: 60,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        product.name,
-                        style: TextStyles.body.copyWith(fontWeight: FontWeight.bold),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      product.imagePath,
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            product.name,
+                            style: TextStyles.body.copyWith(fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '৳${product.price}',
+                            style: TextStyles.body.copyWith(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        '৳${product.price}',
-                        style: TextStyles.body.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.bold,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        AppData.addToCart(product);
+                      },
+                      child: const ColoredBox(
+                        color: Color(0xFFC8553D),
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.shopping_bag_outlined,
+                            color: Colors.white,
+                            size: 20,
+                          ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 8),
+                    IconButton(
+                      icon: const Icon(Icons.delete_outline, color: Colors.red),
+                      onPressed: () {
+                        setState(() {
+                          AppData.toggleWishlist(product);
+                        });
+                      },
+                    ),
+                  ],
                 ),
-                IconButton(
-                  icon: const Icon(Icons.shopping_cart_checkout, color: Colors.green),
-                  onPressed: () {
-                    AppData.addToCart(product);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('${product.name} added to cart!'),
-                        duration: const Duration(seconds: 1),
-                      ),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete_outline, color: Colors.red),
-                  onPressed: () {
-                    setState(() {
-                      AppData.toggleWishlist(product);
-                    });
-                  },
-                ),
-              ],
+              ),
             ),
           );
         },

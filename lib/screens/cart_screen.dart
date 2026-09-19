@@ -24,6 +24,8 @@ class _CartScreenState extends State<CartScreen> {
     setState(() {
       if (AppData.cartItems[index].quantity > 1) {
         AppData.cartItems[index].quantity--;
+      } else {
+        AppData.cartItems.removeAt(index);
       }
     });
   }

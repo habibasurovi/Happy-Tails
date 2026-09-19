@@ -18,6 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // Note theke: Timer function - 3 second pore login page e nibe jabe[cite: 1]
     Future.delayed(const Duration(seconds: 3), () {
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const LoginScreen()),

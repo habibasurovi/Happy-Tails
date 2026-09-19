@@ -37,8 +37,6 @@ class _ShopScreenState extends State<ShopScreen> {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< Updated upstream
-=======
     // Combine all product lists into one
     final List<Product> allProducts = [
       ...catProductsData,
@@ -49,7 +47,6 @@ class _ShopScreenState extends State<ShopScreen> {
     ];
 
     // Basic filter logic
->>>>>>> Stashed changes
     List<Product> filteredProducts = [];
     for (var product in allProducts) {
       if (product.mainCategory == selectedCategory) {
@@ -176,7 +173,7 @@ class CustomShopProductCard extends StatefulWidget {
 class _CustomShopProductCardState extends State<CustomShopProductCard> {
   @override
   Widget build(BuildContext context) {
-    bool isFavorite = AppData.wishlistItems.contains(widget.product);
+    bool isFavorite = AppData.isWishlisted(widget.product);
 
     return Container(
       decoration: BoxDecoration(

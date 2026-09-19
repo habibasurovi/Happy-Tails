@@ -6,6 +6,7 @@ import 'package:happy_tails/widgets/custom_text_field.dart';
 import 'package:happy_tails/widgets/primary_button.dart';
 import 'package:happy_tails/utils/form_validator.dart';
 import 'package:happy_tails/screens/main_screen.dart';
+import 'package:happy_tails/screens/signup_screen.dart';
 import 'package:happy_tails/utils/auth_services.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -54,6 +55,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       } catch (e) {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Invalid email or password'),
@@ -159,27 +161,25 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                           GestureDetector(
-                            onTap: () {
-                              // Forgot Password screen
-                              onTap: () async {
-                                try {
-                                  await authServices.forgotPassword(
-                                      _emailController.text);
-
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Password reset email sent!'),
-                                    ),
-                                  );
-                                } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Enter a valid email.'),
-                                    ),
-                                  );
-                                }
-                              };
+                            onTap: () async {
+                              try {
+                                await authServices.forgotPassword(
+                                    _emailController.text);
+                                if (!mounted) return;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'Password reset email sent!'),
+                                  ),
+                                );
+                              } catch (e) {
+                                if (!mounted) return;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Enter a valid email.'),
+                                  ),
+                                );
+                              }
                             },
                             child: Text(
                               'Forgot Password?',
@@ -207,7 +207,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // Sign Up screen
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SignupScreen(),
+                                ),
+                              );
                             },
                             child: Text(
                               'Sign Up',

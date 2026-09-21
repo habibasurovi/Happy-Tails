@@ -53,8 +53,6 @@ class HomeSearchBar extends StatelessWidget {
         onChanged: onChanged,
         style: TextStyles.body,
         decoration: InputDecoration(
-          hintText: 'Search for food, toys, treats...',
-          hintStyle: TextStyles.secondary,
           prefixIcon: const Icon(Icons.search, color: AppColors.primary, size: 20),
           filled: true,
           fillColor: AppColors.textField,

@@ -1,4 +1,4 @@
-// lib/widgets/happy_picks.dart
+
 import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
 import 'package:happy_tails/constants/text_styles.dart';
@@ -16,7 +16,6 @@ class HappyPicks extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('Happy Picks ', style: TextStyles.subHeading),
-            Text('See all →', style: TextStyles.small.copyWith(color: AppColors.primary)),
           ],
         ),
         const SizedBox(height: 12),
@@ -30,7 +29,6 @@ class HappyPicks extends StatelessWidget {
                 price: '৳850',
                 rating: '4.8 (230)',
                 imagePath: 'assets/images/products/dog_food.jpg',
-                badge: 'Best Seller',
               ),
               ProductCard(
                 name: 'Squeaky Toy Set',

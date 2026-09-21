@@ -1,4 +1,4 @@
-// lib/widgets/promo_banner.dart
+
 import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
 import 'package:happy_tails/constants/text_styles.dart';

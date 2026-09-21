@@ -12,6 +12,15 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool showAddressField = false;
+  bool isEditing = false;
+
+  String name = "Max";
+  String email = "happy_tails@gmail.com...";
+  String phone = "01826287698";
+
+  String newName = '';
+  String newEmail = '';
+  String newPhone = '';
 
   String newAddress = '';
 
@@ -19,6 +28,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
     'House 12, Road 5, Dhanmondi, Dhaka, Bangladesh',
   ];
 
+  void saveProfile() {
+    setState(() {
+      if (newName.isNotEmpty) {
+        name = newName;
+      }
+
+      if (newEmail.isNotEmpty) {
+        email = newEmail;
+      }
+      if (newPhone.isNotEmpty) {
+        phone = newPhone;
+      }
+
+      isEditing = false;
+    });
+  }
   void addAddress() {
     if (newAddress.isNotEmpty) {
       setState(() {
@@ -28,7 +53,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,70 +68,121 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   'Profile',
                   style: TextStyles.heading,
                 ),
-
                 const SizedBox(height: 20),
-
-                Center(
-                  child: Column(
-                    children: [
-
-                      const SizedBox(height: 12),
-
-                      Text(
-                        "Bella's Hooman",
-                        style: TextStyles.subHeading,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Profile Information',
+                      style: TextStyles.subHeading,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (isEditing) {
+                          saveProfile();
+                        } else {
+                          setState(() {
+                            isEditing = true;
+                            newName = name;
+                            newEmail = email;
+                            newPhone = phone;
+                          });
+                        }
+                      },
+                      child: Text(
+                        isEditing ? 'Save' : 'Edit',
                       ),
-
-                      const SizedBox(height: 4),
-
-                      Text(
-                        'bella.hooman@paws.net',
-                        style: TextStyles.secondary,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
 
-                const SizedBox(height: 25),
+                const SizedBox(height: 10),
 
-                Text(
-                  'Profile Information',
-                  style: TextStyles.subHeading,
-                ),
+                if (isEditing)
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(15),
+                    color: AppColors.textField,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Name',
+                          style: TextStyles.secondary,
+                        ),
 
-                const SizedBox(height: 8),
+                        TextField(
+                          onChanged: (value) {
+                            newName = value;
+                          },
+                          decoration: InputDecoration(
+                            hintText: name,
+                          ),
+                        ),
 
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppColors.card,
-                    borderRadius: BorderRadius.circular(15),
+                        const SizedBox(height: 10),
+
+                        Text(
+                          'Email',
+                          style: TextStyles.secondary,
+                        ),
+
+                        TextField(
+                          onChanged: (value) {
+                            newEmail = value;
+                          },
+                          decoration: InputDecoration(
+                            hintText: email,
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        Text(
+                          'Phone',
+                          style: TextStyles.secondary,
+                        ),
+
+                        TextField(
+                          onChanged: (value) {
+                            newPhone = value;
+                          },
+                          decoration: InputDecoration(
+                            hintText: phone,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                else
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    color: AppColors.textField,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Name: $name',
+                          style: TextStyles.body,
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        Text(
+                          'Email: $email',
+                          style: TextStyles.secondary,
+                        ),
+
+                        const SizedBox(height: 8),
+
+                        Text(
+                          'Phone: $phone',
+                          style: TextStyles.secondary,
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Name: Bella's Hooman",
-                        style: TextStyles.body,
-                      ),
-
-                      const SizedBox(height: 8),
-
-                      Text(
-                        'Email: bella.hooman@paws.net',
-                        style: TextStyles.secondary,
-                      ),
-
-                      const SizedBox(height: 8),
-
-                      Text(
-                        'Phone: 01826287698',
-                        style: TextStyles.secondary,
-                      ),
-                    ],
-                  ),
-                ),
 
                 const SizedBox(height: 22),
 
@@ -125,10 +200,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           showAddressField = !showAddressField;
                         });
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: AppColors.white,
-                      ),
                       child: const Text(
                         '+ Add Address',
                       ),
@@ -140,12 +211,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                 if (showAddressField)
                   Container(
+                    width: double.infinity,
                     padding: const EdgeInsets.all(12),
-                    margin: const EdgeInsets.only(bottom: 12),
-                    decoration: BoxDecoration(
-                      color: AppColors.textField,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                    color: AppColors.textField,
                     child: Column(
                       children: [
                         TextField(
@@ -154,7 +222,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           },
                           decoration: const InputDecoration(
                             hintText: 'Enter your address',
-                            border: OutlineInputBorder(),
                           ),
                         ),
 
@@ -162,10 +229,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                         ElevatedButton(
                           onPressed: addAddress,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: AppColors.white,
-                          ),
                           child: const Text(
                             'Save Address',
                           ),
@@ -174,6 +237,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
 
+                const SizedBox(height: 10),
+
                 Column(
                   children: [
                     for (String address in savedAddresses)
@@ -181,10 +246,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: double.infinity,
                         padding: const EdgeInsets.all(15),
                         margin: const EdgeInsets.only(bottom: 10),
-                        decoration: BoxDecoration(
-                          color: AppColors.surface,
-                          borderRadius: BorderRadius.circular(15),
-                        ),
+                        color: AppColors.surface,
                         child: Row(
                           children: [
                             const Icon(
@@ -194,11 +256,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                             const SizedBox(width: 10),
 
-                            Expanded(
-                              child: Text(
-                                address,
-                                style: TextStyles.body,
-                              ),
+                            Text(
+                              address,
+                              style: TextStyles.body,
                             ),
                           ],
                         ),
@@ -218,10 +278,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppColors.card,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
+                  color: AppColors.card,
                   child: Text(
                     'Welcome to Happy Tails Help & Support. '
                         'If you have any problem while using the app, '
@@ -237,33 +294,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(height: 25),
 
                 Center(
-                  child: SizedBox(
-                    width: 150,
-                    height: 45,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: AppColors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
                         ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: AppColors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 35,
+                        vertical: 12,
                       ),
-                      child: Text(
-                        'Logout',
-                        style: TextStyles.button,
-                      ),
+                    ),
+                    child: Text(
+                      'Logout',
+                      style: TextStyles.button,
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
               ],
             ),

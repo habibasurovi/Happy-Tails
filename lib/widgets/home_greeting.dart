@@ -1,11 +1,11 @@
-// lib/widgets/home_greeting.dart
+
 import 'package:flutter/material.dart';
 import 'package:happy_tails/constants/app_colors.dart';
 import 'package:happy_tails/constants/text_styles.dart';
 
 class HomeGreeting extends StatelessWidget {
   final String userName;
-  const HomeGreeting({super.key, this.userName = "Bella's hooman"});
+  const HomeGreeting({super.key, this.userName = "Max"});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,6 @@ class HomeGreeting extends StatelessWidget {
                 text: '$userName ',
                 style: TextStyles.subHeading.copyWith(color: AppColors.primary),
               ),
-              const TextSpan(text: '🐾'),
             ],
           ),
         ),

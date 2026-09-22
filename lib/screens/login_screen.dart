@@ -64,7 +64,8 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     }
-  }  @override
+  }  
+  @override
   Widget build(BuildContext context)
   {
     return Scaffold(
@@ -137,27 +138,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           Row(
                             children: [
-                              SizedBox(
-                                height: 24,
-                                width: 24,
-                                child: Checkbox(
-                                  value: _rememberMe,
-                                  activeColor: AppColors.primary,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _rememberMe = value ?? false;
-                                    });
-                                  },
-                                ),
+                              Checkbox(
+                                value: _rememberMe,
+                                activeColor: AppColors.primary,
+                                onChanged: (value) => setState(() => _rememberMe = value ?? false),
                               ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Remember me',
-                                style: TextStyles.secondary,
-                              ),
+                              Text('Remember me', style: TextStyles.secondary),
                             ],
                           ),
                           GestureDetector(

@@ -36,6 +36,17 @@ class _SignupScreenState extends State<SignupScreen> {
     super.dispose();
   }
 
+  // Reusable eye icon button for password fields
+  Widget _buildEyeIcon(bool obscure, VoidCallback onTap) {
+    return IconButton(
+      icon: Icon(
+        obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+        color: AppColors.secondaryText,
+      ),
+      onPressed: onTap,
+    );
+  }
+
   bool _validateFields() {
     setState(() {
       _emailError = FormValidator.validateEmail(_emailController.text);
@@ -58,9 +69,7 @@ class _SignupScreenState extends State<SignupScreen> {
           _emailController.text.trim(),
           _passwordController.text,
         );
-
         if (!mounted) return;
-
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const MainScreen()),
@@ -68,12 +77,7 @@ class _SignupScreenState extends State<SignupScreen> {
       } catch (e) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.toString().contains(']')
-                ? e.toString().split('] ').last
-                : 'Sign up failed. Please try again.'),
-            backgroundColor: AppColors.primary,
-          ),
+          const SnackBar(content: Text('Sign up failed. Please try again.'), backgroundColor: AppColors.primary),
         );
       }
     }
@@ -102,7 +106,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   padding: const EdgeInsets.all(24.0),
                   child: Column(
                     children: [
-                      Text('Create Account 🐾', style: TextStyles.heading),
+                      Text('Create Account', style: TextStyles.heading),
                       const SizedBox(height: 4),
                       Text(
                         'Join the Happy Tails family today!',
@@ -110,7 +114,6 @@ class _SignupScreenState extends State<SignupScreen> {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 24),
-
                       CustomTextField(
                         controller: _emailController,
                         label: 'Email Address',
@@ -119,7 +122,6 @@ class _SignupScreenState extends State<SignupScreen> {
                         errorText: _emailError,
                       ),
                       const SizedBox(height: 16),
-
                       CustomTextField(
                         controller: _passwordController,
                         label: 'Password',
@@ -127,20 +129,10 @@ class _SignupScreenState extends State<SignupScreen> {
                         prefixIcon: Icons.lock_outline,
                         obscureText: _obscurePassword,
                         errorText: _passwordError,
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscurePassword
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                            color: AppColors.secondaryText,
-                          ),
-                          onPressed: () {
-                            setState(() => _obscurePassword = !_obscurePassword);
-                          },
-                        ),
+                        suffixIcon: _buildEyeIcon(_obscurePassword,
+                            () => setState(() => _obscurePassword = !_obscurePassword)),
                       ),
                       const SizedBox(height: 16),
-
                       CustomTextField(
                         controller: _confirmPasswordController,
                         label: 'Confirm Password',
@@ -148,33 +140,16 @@ class _SignupScreenState extends State<SignupScreen> {
                         prefixIcon: Icons.lock_outline,
                         obscureText: _obscureConfirm,
                         errorText: _confirmPasswordError,
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscureConfirm
-                                ? Icons.visibility_off_outlined
-                                : Icons.visibility_outlined,
-                            color: AppColors.secondaryText,
-                          ),
-                          onPressed: () {
-                            setState(() => _obscureConfirm = !_obscureConfirm);
-                          },
-                        ),
+                        suffixIcon: _buildEyeIcon(_obscureConfirm,
+                            () => setState(() => _obscureConfirm = !_obscureConfirm)),
                       ),
                       const SizedBox(height: 28),
-
-                      PrimaryButton(
-                        label: 'Sign Up',
-                        onPressed: _handleSignup,
-                      ),
+                      PrimaryButton(label: 'Sign Up', onPressed: _handleSignup),
                       const SizedBox(height: 20),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            'Already have an account? ',
-                            style: TextStyles.secondary,
-                          ),
+                          Text('Already have an account? ', style: TextStyles.secondary),
                           GestureDetector(
                             onTap: () => Navigator.pop(context),
                             child: Text(
@@ -199,3 +174,4 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 }
+
